@@ -1,4 +1,5 @@
 import org.apache.hadoop.conf.Configuration;
+import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.Text;
@@ -14,6 +15,9 @@ public class WordCount1 {
         // 设置用户可以跨平台提交，否则提交成功但是执行失败
         conf.set("mapreduce.app-submission.cross-platform","true");
         try{
+            FileSystem fs=FileSystem.get(conf);
+            fs.delete(new Path("/will/data/output"));
+
             Job job = Job.getInstance(conf,"WordCount V1.0");
 
             job.setJarByClass(WordCount1.class);
